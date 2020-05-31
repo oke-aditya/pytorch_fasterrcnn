@@ -1,2 +1,3 @@
-# pytorch_fasterrcnn
-Fine-Tune the Pytorch RCNN for your own task.
+# pytorch_faster_rcnn
+
+Faster RCNN Fine-Tune Implementation in Pytorch.
