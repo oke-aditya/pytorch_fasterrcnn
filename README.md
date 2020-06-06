@@ -17,6 +17,11 @@ Do not use target as 0 class. It is reserved as background.
 I have used this to create a helmet detector and a mask detector as well.
 Sample Outputs: -
 
+# Helmet Detector
+![Helmet Detection](outputs/helmet.jpg)
+
+# Mask Detector
+![Mask Detection](outputs/masks.jpg)
 Currently it supports only mobilenet backbone, Will add functionality soon.
 
 
