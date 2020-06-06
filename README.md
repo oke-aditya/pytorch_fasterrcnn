@@ -21,7 +21,7 @@ Sample Outputs: -
 ![Helmet Detection](outputs/helmet.jpg)
 
 # Mask Detector
-![Mask Detection](outputs/masks.jpg)
+![Mask Detection](outputs/mask.jpg)
 Currently it supports only mobilenet backbone, Will add functionality soon.
 
 
