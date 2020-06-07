@@ -2,29 +2,40 @@
 
 Faster RCNN Fine-Tune Implementation in Pytorch.
 
-Simply edit the config file to set your hyper parameters
+## How to use ?
+1. git clone the repo
+```
+git clone https://github.com/oke-aditya/pytorch_fasterrcnn.git
+```
+2. install the requirements (will add)
+```
+pip install -r requirements.txt
+```
 
-Keep the training csv file as follows
+3. Keep the training and validation csv file as follows
 
+NOTE
+
+Do not use target as 0 class. It is reserved as background.
+
+```
 image_id xtl ytl xbr ybr      target
 1        xmin ymin xmax ymax   1
 1        xmin ymin xmax ymax   2
+2		 xmin ymin xmax ymax   3
+```
 
+4. Simply edit the config file to set your hyper parameters
 
-It works for multiple class object detection.
-Do not use target as 0 class. It is reserved as background.
+5. Run the train.py file
 
-I have used this to create a helmet detector and a mask detector as well.
-Sample Outputs: -
+# Features: -
 
-# Helmet Detector
-![Helmet Detection](outputs/helmet.jpg)
+- It works for multiple class object detection.
 
-# Mask Detector
-![Mask Detection](outputs/mask.jpg)
-Currently it supports only mobilenet backbone, Will add functionality soon.
+## Backbones Supported: -
 
-- Note the backbones are pretrained on imagenet. 
+- Note that backbones are pretrained on imagenet. 
 
 - Following backbones are supported
 
@@ -33,7 +44,16 @@ Currently it supports only mobilenet backbone, Will add functionality soon.
 3. renext101
 4. mobilenet_v2
 
-You can finetune the Anchors and roi align as well. Other hyperparemeters will be aded soon.
 
+Sample Outputs
+
+# Helmet Detector
+![Helmet Detection](outputs/helmet.jpg)
+
+# Mask Detector
+![Mask Detection](outputs/mask.jpg)
+
+
+If you like the implemenation or have taken an inspiration do give a star :-)
 
 
