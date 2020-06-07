@@ -33,7 +33,7 @@ def run():
 
     print("Data Loaders created")
 
-    detector = model.create_model(config.NUM_CLASSES)  
+    detector = model.create_model(config.NUM_CLASSES, backbone=config.BACKBONE)  
     
     params = [p for p in detector.parameters() if p.requires_grad]
     optimizer = optim.Adam(params, lr=config.LEARNING_RATE)

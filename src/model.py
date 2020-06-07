@@ -10,6 +10,7 @@ def create_model(num_classes, min_size=300, max_size=500, backbone="mobile_net")
     # note num_classes = total_classes + 1 for background.
     # For helmet we have yes, no and background
 
+    
     # This is the default backbone rcnn. We can change it.
     model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
     # model = model.to(device)

@@ -16,7 +16,7 @@ DETECTION_THRESHOLD = 0.25
 MODEL_SAVE_PATH = "models/faster_rcnn_mobilenetv2_3.pt"
 # valid_batch_size = 4
 # valid_workers = 2
-
+BACKBONE = "mobile_net"
 OUTPUT_PATH = "outputs/"
 
 PREDICT_IMAGE = "images/350.jpg"
