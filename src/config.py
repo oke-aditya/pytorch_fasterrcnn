@@ -1,4 +1,6 @@
 # Contains the configuration files for training and dataloader
+# Edit the configuration file as per your needs
+
 
 TRAIN_CSV_PATH = 'df_train.csv'
 VALIDATION_CSV_PATH = 'df_val.csv'
@@ -11,14 +13,14 @@ LEARNING_RATE = 1e-3
 EPOCHS = 10
 NUM_CLASSES = 5
 DETECTION_THRESHOLD = 0.25
-# Model v2_3 is mask detector
-# mode v2_2 is helemt detector
-MODEL_SAVE_PATH = "models/faster_rcnn_mobilenetv2_3.pt"
+
+BACKBONE = "mobile_net"
+MODEL_SAVE_PATH = "models/faster_rcnn_{}.pt".format(BACKBONE)
 # valid_batch_size = 4
 # valid_workers = 2
-BACKBONE = "mobile_net"
+
 OUTPUT_PATH = "outputs/"
 
-PREDICT_IMAGE = "images/350.jpg"
-SAVE_IMAGE = "outputs/350.jpg"
+PREDICT_IMAGE = None
+SAVE_IMAGE = None
 SAVE_DIR = "outputs/"

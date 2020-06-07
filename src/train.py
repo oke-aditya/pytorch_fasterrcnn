@@ -47,7 +47,7 @@ def run():
     for epoch in range(config.EPOCHS):
         loss_value = engine.train_fn(train_dataloader, detector, optimizer, device)
         print("epoch = {}, Training_loss = {}".format(epoch, loss_value))
-        # Right now I'm setting a very low thershold as we have very less data.
+        # Set the threshold as per needs
         results = engine.eval_fn(valid_dataloader, detector, device, detection_threshold=config.DETECTION_THRESHOLD)
         # Pretty printing the results
         pprint(results)
