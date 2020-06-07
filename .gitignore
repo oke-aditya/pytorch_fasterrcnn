@@ -1,7 +1,9 @@
+# Ipython notebooks won't make a package proper
+*.ipynb
 #data_files
 
 data/
-submission/
+src/data_proc.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
