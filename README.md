@@ -34,9 +34,6 @@ image_id xtl ytl xbr ybr      target
 
 4. Simply edit the config file to set your hyper parameters
 
-```
-
-
 5. Run the train.py file
 
 # Features: -
@@ -55,8 +52,6 @@ image_id xtl ytl xbr ybr      target
 3. renext101
 4. mobilenet_v2
 
-
-I have used this to create a helmet detector and a mask detector as well.
 
 
 Sample Outputs
