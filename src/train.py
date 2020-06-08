@@ -21,10 +21,10 @@ def run():
     train_df = pd.read_csv(config.TRAIN_CSV_PATH)
     valid_df = pd.read_csv(config.VALIDATION_CSV_PATH)
 
-    train_dataset = dataset.detection_dataset(train_df, config.IMAGE_DIR, target=config.TARGET_COL 
+    train_dataset = dataset.detection_dataset(train_df, config.IMAGE_DIR, target=config.TARGET_COL, 
                     train=True, transforms=T.Compose([T.ToTensor()]))
     
-    valid_dataset = dataset.detection_dataset(valid_df, config.IMAGE_DIR, target=config.TARGET_COL
+    valid_dataset = dataset.detection_dataset(valid_df, config.IMAGE_DIR, target=config.TARGET_COL,
                     train=True, transforms=T.Compose([T.ToTensor()]))
 
     # print(train_dataset)

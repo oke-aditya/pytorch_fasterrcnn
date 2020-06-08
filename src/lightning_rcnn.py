@@ -10,7 +10,7 @@ import model
 
 class lightningRCNN(pl.LightningModule):
     def __init__(self, num_classes, backbone):
-        super.__init__()
+        super().__init__()
         self.fastercnn_model = model.create_model(num_classes=num_classes, backbone=backbone)
     
     def forward(self, x):
@@ -28,6 +28,9 @@ class lightningRCNN(pl.LightningModule):
         losses = self(xb, list(yb))
         loss_total = sum(losses.values())
         losses = {f"valid/{k}": v for k, v in losses.items()}
+    
+    def configure_optimizers(self):
+        return torch.optim.Adam(list(self.parameters()), lr=0.001)
 
         
         # When you want to simply predict

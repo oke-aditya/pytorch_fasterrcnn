@@ -14,7 +14,7 @@ EPOCHS = 10
 NUM_CLASSES = 5
 DETECTION_THRESHOLD = 0.25
 
-BACKBONE = "vgg_16"
+BACKBONE = "mobile_net"
 MODEL_SAVE_PATH = "models/faster_rcnn_{}.pt".format(BACKBONE)
 # valid_batch_size = 4
 # valid_workers = 2
