@@ -5,16 +5,16 @@
 TRAIN_CSV_PATH = 'df_train.csv'
 VALIDATION_CSV_PATH = 'df_val.csv'
 IMAGE_DIR = 'images/'
-TARGET_COL = "labels"
-TRAIN_BATCH_SIZE = 4
-VALID_BATCH_SIZE = 4
+TARGET_COL = "has_helmet"
+TRAIN_BATCH_SIZE = 2
+VALID_BATCH_SIZE = 2
 TRAIN_WORKERS = 4
 LEARNING_RATE = 1e-3
 EPOCHS = 10
 NUM_CLASSES = 5
 DETECTION_THRESHOLD = 0.25
 
-BACKBONE = "mobile_net"
+BACKBONE = "vgg_16"
 MODEL_SAVE_PATH = "models/faster_rcnn_{}.pt".format(BACKBONE)
 # valid_batch_size = 4
 # valid_workers = 2
