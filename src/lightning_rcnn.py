@@ -15,6 +15,9 @@ class lightningRCNN(pl.LightningModule):
     
     def forward(self, x):
         out = self.fastercnn_model(x)
+        
+    def configure_optimizers(self):
+        return torch.optim.Adam(list(self.parameters()), lr=0.001)
     
     def training_step(self, batch, batch_idx):
         xb, yb = batch
@@ -28,10 +31,7 @@ class lightningRCNN(pl.LightningModule):
         losses = self(xb, list(yb))
         loss_total = sum(losses.values())
         losses = {f"valid/{k}": v for k, v in losses.items()}
-    
-    def configure_optimizers(self):
-        return torch.optim.Adam(list(self.parameters()), lr=0.001)
-
+        return losses
         
         # When you want to simply predict
         # self.feature_extractor.eval() 
