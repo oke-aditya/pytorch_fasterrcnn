@@ -1,5 +1,10 @@
 # Pytorch Faster RCNN
 
+# Note: -
+1. It is better to use https://github.com/lgvaz/mantisshrimp
+2. All the features in this (plus extra features) have been added to mantisshrimp.
+3. It is a complete framework for object detection and more scalable.
+
 Faster RCNN Fine-Tune Implementation in Pytorch.
 
 ## How to use ?
@@ -66,7 +71,7 @@ Sample Outputs
 
 If you like the implemenation or have taken an inspiration do give a star :-)
 
-Currently it supports only mobilenet backbone, Will add functionality soon.
+
 
 
 
