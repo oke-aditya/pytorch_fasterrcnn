@@ -26,10 +26,10 @@ class detection_dataset(Dataset):
         # Scale down the pixel values of image
         image /= 255.0
 
-        if self.transforms is not None:  #Apply transformation
+        if self.transforms is not None:  # Apply transformation
             image = self.transforms(image)
         
-        if(self.train==False):  # For test data
+        if(self.train is False):  # For test data
             return image, image_id
         
         # Else for train and validation data

@@ -34,12 +34,12 @@ def create_model(num_classes, min_size=300, max_size=500, backbone="mobile_net")
     elif (backbone == "vgg_11"):
         vgg_net = torchvision.models.vgg11(pretrained=True)
         ft_backbone = vgg_net.features
-        ft_bakbone.out_channels = 512
+        ft_backbone.out_channels = 512
 
     elif (backbone == "vgg_13"):
         vgg_net = torchvision.models.vgg13(pretrained=True)
         ft_backbone = vgg_net.features
-        ft_bakbone.out_channels = 512
+        ft_backbone.out_channels = 512
     
     elif (backbone == "vgg_16"):
         vgg_net = torchvision.models.vgg13(pretrained=True)
