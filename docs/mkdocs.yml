@@ -1,15 +1,16 @@
-site_name: Python Template Repository Docs
+site_name: PyTorch Faster RCNN Docs
 theme:
   name: "material"
   palette:
     primary: "dark-blue"
     accent: "dark-blue"
     # scheme: slate Use this for dark mode
-    scheme: slate
-    # scheme: default Use this for light mode
+    # scheme: slate
+    scheme: default
+    # Use this for light mode
 
 docs_dir: templates
-repo_url: https://github.com/oke-aditya/template_python
+repo_url: https://github.com/oke-aditya/pytorch_fasterrcnn
 markdown_extensions:
   - codehilite
   - pymdownx.superfences:
