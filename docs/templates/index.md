@@ -1,12 +1,5 @@
 # Pytorch Faster RCNN
 
-![CI Tests](https://github.com/oke-aditya/pytorch_fasterrcnn/workflows/CI%20Tests/badge.svg)
-![Check Formatting](https://github.com/oke-aditya/pytorch_fasterrcnn/workflows/Check%20Formatting/badge.svg)
-![Build mkdocs](https://github.com/oke-aditya/pytorch_fasterrcnn/workflows/Build%20mkdocs/badge.svg)
-![Deploy mkdocs](https://github.com/oke-aditya/pytorch_fasterrcnn/workflows/Deploy%20mkdocs/badge.svg)
-![PyPi Release](https://github.com/oke-aditya/pytorch_fasterrcnn/workflows/PyPi%20Release/badge.svg)
-![Install Package](https://github.com/oke-aditya/pytorch_fasterrcnn/workflows/Install%20Package/badge.svg)
-
 Faster RCNN Fine-Tune Implementation in Pytorch.
 
 ## How to use ?
@@ -61,11 +54,5 @@ Sample Outputs
 # Mask Detector
 ![Mask Detection](outputs/mask.jpg)
 
-
-
 If you like the implemenation or have taken an inspiration do give a star :-)
-
-
-
-
 

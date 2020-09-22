@@ -2,9 +2,9 @@
 # Edit the configuration file as per your needs
 
 
-TRAIN_CSV_PATH = 'df_train.csv'
-VALIDATION_CSV_PATH = 'df_val.csv'
-IMAGE_DIR = 'images/'
+TRAIN_CSV_PATH = "df_train.csv"
+VALIDATION_CSV_PATH = "df_val.csv"
+IMAGE_DIR = "images/"
 TARGET_COL = "has_helmet"
 TRAIN_BATCH_SIZE = 2
 VALID_BATCH_SIZE = 2

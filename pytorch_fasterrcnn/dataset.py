@@ -3,11 +3,15 @@ import numpy as np
 import cv2
 import torch
 from torch.utils.data import DataLoader, Dataset
+
+__all__ = ["detection_dataset"]
+
+
 class detection_dataset(Dataset):
     def __init__(self, dataframe, image_dir, target, transforms=None, train=True):
         super().__init__()
 
-        self.image_ids = dataframe['image_id'].unique()
+        self.image_ids = dataframe["image_id"].unique()
         self.image_dir = image_dir
         self.transforms = transforms
         self.df = dataframe
@@ -22,25 +26,24 @@ class detection_dataset(Dataset):
         image_src = os.path.join(self.image_dir, str(image_id)) + ".jpg"
         image = cv2.imread(image_src, cv2.IMREAD_COLOR)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB).astype(np.float32)
-        
+
         # Scale down the pixel values of image
         image /= 255.0
 
         if self.transforms is not None:  # Apply transformation
             image = self.transforms(image)
-        
-        if(self.train is False):  # For test data
+
+        if self.train is False:  # For test data
             return image, image_id
-        
+
         # Else for train and validation data
-        records = self.df[self.df['image_id'] == image_id]
-        boxes = records[['xtl', 'ytl', 'xbr', 'ybr']].values
+        records = self.df[self.df["image_id"] == image_id]
+        boxes = records[["xtl", "ytl", "xbr", "ybr"]].values
         boxes = torch.as_tensor(boxes, dtype=torch.float32)
-        
+
         area = (boxes[:, 3] - boxes[:, 1]) * (boxes[:, 2] - boxes[:, 0])
         area = torch.as_tensor(area, dtype=torch.float32)
 
-        
         # For has helmet
         # labels_helmet = records['has_helmet'].values
         # labels_helmet = torch.as_tensor(labels_helmet, dtype=torch.int64)
@@ -54,9 +57,9 @@ class detection_dataset(Dataset):
         # print(labels)
 
         target = {}
-        target['boxes'] = boxes
-        target['labels'] = labels
-        target['image_id'] = torch.tensor([index])
-        target['area'] = area
+        target["boxes"] = boxes
+        target["labels"] = labels
+        target["image_id"] = torch.tensor([index])
+        target["area"] = area
 
         return image, target, image_id

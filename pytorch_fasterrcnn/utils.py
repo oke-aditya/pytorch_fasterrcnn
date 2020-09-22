@@ -6,16 +6,16 @@ from collections import defaultdict, deque
 import datetime
 import pickle
 import time
-
-import torch
-# import torch.distributed as dist
-
+import matplotlib.pyplot as plt
+import torch.distributed as dist
+import random
 import errno
 import os
 
-# My utils 
+# My utils
 class AverageMeter:
     """Computes and stores the average and current value"""
+
     def __init__(self):
         self.reset()
 
@@ -31,30 +31,29 @@ class AverageMeter:
         self.count += n
         self.avg = self.sum / self.count
 
+
 def show_loader_images(images, targets, device):
     images = list(image for image in images)
     targets = [{k: v.to(device) for k, v in t.items()} for t in targets]
 
-    boxes = targets[4]['boxes'].cpu().numpy().astype(np.int32)
+    boxes = targets[4]["boxes"].cpu().numpy().astype(np.int32)
     # Torch takes channels first format we need to change to channels last
-    sample = images[4].permute(1,2,0).cpu().numpy()
+    sample = images[4].permute(1, 2, 0).cpu().numpy()
 
     fig, ax = plt.subplots(1, 1, figsize=(16, 8))
 
     for box in boxes:
-        cv2.rectangle(sample,
-                    (box[0], box[1]),
-                    (box[2], box[3]),
-                    (220, 0, 0), 3)
-        
+        cv2.rectangle(sample, (box[0], box[1]), (box[2], box[3]), (220, 0, 0), 3)
+
     ax.set_axis_off()
     ax.imshow(sample)
+
 
 def random_show_images(root_dir, df, no_images=5, fmt=".jpg"):
 
     random_image_l = random.sample(range(0, 500), no_images)
     # random_image_l = [1, 2, 3]
-    
+
     for image_id in random_image_l:
 
         img_path = os.path.join(root_dir, str(image_id))
@@ -66,22 +65,37 @@ def random_show_images(root_dir, df, no_images=5, fmt=".jpg"):
         # plt.imshow(image)
         plt.figure()
         plt.axis("off")
-        
 
-        for i, image_name in enumerate(df['image_id']):
+        for i, image_name in enumerate(df["image_id"]):
             # print(image_name)
-            if(str(image_name) == str(image_id)):
+            if str(image_name) == str(image_id):
                 # print("yes")
-                xtl = int(df['xtl'].iloc[i])
-                ytl = int(df['ytl'].iloc[i])
-                xbr = int(df['xbr'].iloc[i])
-                ybr = int(df['ybr'].iloc[i])
+                xtl = int(df["xtl"].iloc[i])
+                ytl = int(df["ytl"].iloc[i])
+                xbr = int(df["xbr"].iloc[i])
+                ybr = int(df["ybr"].iloc[i])
                 # print(xtl, ytl, xbr, ybr)
-                has_helmet = str(df['has_helmet'].iloc[i]) + " helmet"
-                has_mask =  str(df['has_mask'].iloc[i]) + " mask"
+                has_helmet = str(df["has_helmet"].iloc[i]) + " helmet"
+                has_mask = str(df["has_mask"].iloc[i]) + " mask"
                 cv2.rectangle(image, (xtl, ytl), (xbr, ybr), color=(0, 255, 0))
-                cv2.putText(image, has_helmet, (xtl, ytl), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (36,255,12), 2)
-                cv2.putText(image, has_mask, (xbr, ybr), cv2.FONT_HERSHEY_SIMPLEX,  0.5, (36,255,12), 2)
+                cv2.putText(
+                    image,
+                    has_helmet,
+                    (xtl, ytl),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.5,
+                    (36, 255, 12),
+                    2,
+                )
+                cv2.putText(
+                    image,
+                    has_mask,
+                    (xbr, ybr),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.5,
+                    (36, 255, 12),
+                    2,
+                )
 
         plt.imshow(image)
 
@@ -89,11 +103,13 @@ def random_show_images(root_dir, df, no_images=5, fmt=".jpg"):
 # Let's get distrigbution stats for our labeled data
 def get_distribution_column(df, column):
     print(df[column].value_counts())
-    df[column].value_counts().sort_values().plot(kind = 'bar')
+    df[column].value_counts().sort_values().plot(kind="bar")
+
 
 # Note these utils are taken from
 # They are standard boiler plate code that I can use.
 # https://github.com/pytorch/vision.git
+
 
 class SmoothedValue(object):
     """Track a series of values and provide access to smoothed values over a
@@ -119,7 +135,7 @@ class SmoothedValue(object):
         """
         if not is_dist_avail_and_initialized():
             return
-        t = torch.tensor([self.count, self.total], dtype=torch.float64, device='cuda')
+        t = torch.tensor([self.count, self.total], dtype=torch.float64, device="cuda")
         dist.barrier()
         dist.all_reduce(t)
         t = t.tolist()
@@ -154,7 +170,8 @@ class SmoothedValue(object):
             avg=self.avg,
             global_avg=self.global_avg,
             max=self.max,
-            value=self.value)
+            value=self.value,
+        )
 
 
 def all_gather(data):
@@ -188,7 +205,9 @@ def all_gather(data):
     for _ in size_list:
         tensor_list.append(torch.empty((max_size,), dtype=torch.uint8, device="cuda"))
     if local_size != max_size:
-        padding = torch.empty(size=(max_size - local_size,), dtype=torch.uint8, device="cuda")
+        padding = torch.empty(
+            size=(max_size - local_size,), dtype=torch.uint8, device="cuda"
+        )
         tensor = torch.cat((tensor, padding), dim=0)
     dist.all_gather(tensor_list, tensor)
 
@@ -244,15 +263,14 @@ class MetricLogger(object):
             return self.meters[attr]
         if attr in self.__dict__:
             return self.__dict__[attr]
-        raise AttributeError("'{}' object has no attribute '{}'".format(
-            type(self).__name__, attr))
+        raise AttributeError(
+            "'{}' object has no attribute '{}'".format(type(self).__name__, attr)
+        )
 
     def __str__(self):
         loss_str = []
         for name, meter in self.meters.items():
-            loss_str.append(
-                "{}: {}".format(name, str(meter))
-            )
+            loss_str.append("{}: {}".format(name, str(meter)))
         return self.delimiter.join(loss_str)
 
     def synchronize_between_processes(self):
@@ -265,21 +283,23 @@ class MetricLogger(object):
     def log_every(self, iterable, print_freq, header=None):
         i = 0
         if not header:
-            header = ''
+            header = ""
         start_time = time.time()
         end = time.time()
-        iter_time = SmoothedValue(fmt='{avg:.4f}')
-        data_time = SmoothedValue(fmt='{avg:.4f}')
-        space_fmt = ':' + str(len(str(len(iterable)))) + 'd'
-        log_msg = self.delimiter.join([
-            header,
-            '[{0' + space_fmt + '}/{1}]',
-            'eta: {eta}',
-            '{meters}',
-            'time: {time}',
-            'data: {data}',
-            'max mem: {memory:.0f}'
-        ])
+        iter_time = SmoothedValue(fmt="{avg:.4f}")
+        data_time = SmoothedValue(fmt="{avg:.4f}")
+        space_fmt = ":" + str(len(str(len(iterable)))) + "d"
+        log_msg = self.delimiter.join(
+            [
+                header,
+                "[{0" + space_fmt + "}/{1}]",
+                "eta: {eta}",
+                "{meters}",
+                "time: {time}",
+                "data: {data}",
+                "max mem: {memory:.0f}",
+            ]
+        )
         MB = 1024.0 * 1024.0
         for obj in iterable:
             data_time.update(time.time() - end)
@@ -288,17 +308,26 @@ class MetricLogger(object):
             if i % print_freq == 0 or i == len(iterable) - 1:
                 eta_seconds = iter_time.global_avg * (len(iterable) - i)
                 eta_string = str(datetime.timedelta(seconds=int(eta_seconds)))
-                print(log_msg.format(
-                    i, len(iterable), eta=eta_string,
-                    meters=str(self),
-                    time=str(iter_time), data=str(data_time),
-                    memory=torch.cuda.max_memory_allocated() / MB))
+                print(
+                    log_msg.format(
+                        i,
+                        len(iterable),
+                        eta=eta_string,
+                        meters=str(self),
+                        time=str(iter_time),
+                        data=str(data_time),
+                        memory=torch.cuda.max_memory_allocated() / MB,
+                    )
+                )
             i += 1
             end = time.time()
         total_time = time.time() - start_time
         total_time_str = str(datetime.timedelta(seconds=int(total_time)))
-        print('{} Total time: {} ({:.4f} s / it)'.format(
-            header, total_time_str, total_time / len(iterable)))
+        print(
+            "{} Total time: {} ({:.4f} s / it)".format(
+                header, total_time_str, total_time / len(iterable)
+            )
+        )
 
 
 def collate_fn(batch):
@@ -306,7 +335,6 @@ def collate_fn(batch):
 
 
 def warmup_lr_scheduler(optimizer, warmup_iters, warmup_factor):
-
     def f(x):
         if x >= warmup_iters:
             return 1
@@ -329,10 +357,11 @@ def setup_for_distributed(is_master):
     This function disables printing when not in master process
     """
     import builtins as __builtin__
+
     builtin_print = __builtin__.print
 
     def print(*args, **kwargs):
-        force = kwargs.pop('force', False)
+        force = kwargs.pop("force", False)
         if is_master or force:
             builtin_print(*args, **kwargs)
 
@@ -369,26 +398,30 @@ def save_on_master(*args, **kwargs):
 
 
 def init_distributed_mode(args):
-    if 'RANK' in os.environ and 'WORLD_SIZE' in os.environ:
+    if "RANK" in os.environ and "WORLD_SIZE" in os.environ:
         args.rank = int(os.environ["RANK"])
-        args.world_size = int(os.environ['WORLD_SIZE'])
-        args.gpu = int(os.environ['LOCAL_RANK'])
-    elif 'SLURM_PROCID' in os.environ:
-        args.rank = int(os.environ['SLURM_PROCID'])
+        args.world_size = int(os.environ["WORLD_SIZE"])
+        args.gpu = int(os.environ["LOCAL_RANK"])
+    elif "SLURM_PROCID" in os.environ:
+        args.rank = int(os.environ["SLURM_PROCID"])
         args.gpu = args.rank % torch.cuda.device_count()
     else:
-        print('Not using distributed mode')
+        print("Not using distributed mode")
         args.distributed = False
         return
 
     args.distributed = True
 
     torch.cuda.set_device(args.gpu)
-    args.dist_backend = 'nccl'
-    print('| distributed init (rank {}): {}'.format(
-        args.rank, args.dist_url), flush=True)
-    torch.distributed.init_process_group(backend=args.dist_backend, init_method=args.dist_url,
-                                         world_size=args.world_size, rank=args.rank)
+    args.dist_backend = "nccl"
+    print(
+        "| distributed init (rank {}): {}".format(args.rank, args.dist_url), flush=True
+    )
+    torch.distributed.init_process_group(
+        backend=args.dist_backend,
+        init_method=args.dist_url,
+        world_size=args.world_size,
+        rank=args.rank,
+    )
     torch.distributed.barrier()
     setup_for_distributed(args.rank == 0)
-
