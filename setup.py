@@ -19,9 +19,9 @@ for o in expected:
 setup_cfg = {o: cfg[o] for o in cfg_keys}
 
 licenses = {
-    "mit": (
-        "MIT License",
-        "MIT License (MIT)",
+    "apache2": (
+        "Apache Software License 2.0",
+        "OSI Approved :: Apache Software License",
     ),
 }
 statuses = [
