@@ -1,5 +1,8 @@
 # Pytorch Faster RCNN
 
+- Note that this PyPi package is no longer maintained. It will work fine upto this release, but I won't do bug fixes.
+- The entire code and API is migrated to [Quickvison](https://github.com/Quick-AI/quickvision), it has similar API and is maintained actively.
+
 ![CI Tests](https://github.com/oke-aditya/pytorch_fasterrcnn/workflows/CI%20Tests/badge.svg)
 ![Check Formatting](https://github.com/oke-aditya/pytorch_fasterrcnn/workflows/Check%20Formatting/badge.svg)
 ![Build mkdocs](https://github.com/oke-aditya/pytorch_fasterrcnn/workflows/Build%20mkdocs/badge.svg)
